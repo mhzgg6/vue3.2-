@@ -1,33 +1,82 @@
 <template>
   <div class="login-container">
-    <el-form ref="formRef" :model="form" class="login-form">
+    <el-form ref="formRef" :model="form" :rules="rules" class="login-form">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
-      <el-form-item>
-        <el-icon :size="20" class="svg-container">
+      <el-form-item prop="username">
+        <!-- <el-icon :size="20" class="svg-container">
           <edit />
-        </el-icon>
-        <el-input v-model="form.name" />
+        </el-icon> -->
+        <svg-icon icon="user" class="svg-container"></svg-icon>
+        <el-input v-model="form.username" />
       </el-form-item>
-      <el-form-item>
-        <el-icon :size="20" class="svg-container">
+      <el-form-item prop="password">
+        <!-- <el-icon :size="20" class="svg-container">
           <edit />
-        </el-icon>
-        <el-input v-model="form.password" />
+        </el-icon> -->
+        <svg-icon icon="password" class="svg-container"></svg-icon>
+        <el-input v-model="form.password" :type="passwordType" />
+        <svg-icon
+          :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+          @click="changeType"
+        ></svg-icon>
       </el-form-item>
-      <el-button type="primary" class="login-button">登录</el-button>
+      <el-button type="primary" class="login-button" @click="handleLogin"
+        >登录</el-button
+      >
     </el-form>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Edit } from '@element-plus/icons-vue'
+import { ref, reactive } from 'vue'
+// import { Edit } from '@element-plus/icons-vue'
+// import { login } from '@/api/login'
+import { useStore } from 'vuex'
+const store = useStore()
+
 const form = ref({
-  name: '',
+  username: '',
   password: ''
 })
+const rules = reactive({
+  username: [
+    {
+      required: true,
+      message: 'Please input Activity name',
+      trigger: 'blur'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: 'Please select Activity zone',
+      trigger: 'blur'
+    }
+  ]
+})
+
+const formRef = ref(null)
+const handleLogin = () => {
+  formRef.value.validate(async (valid, fields) => {
+    if (valid) {
+      store.dispatch('app/login', form.value)
+    } else {
+      console.log('error submit!', fields)
+      return false
+    }
+  })
+}
+
+const passwordType = ref('password')
+const changeType = () => {
+  if (passwordType.value === 'password') {
+    passwordType.value = 'text'
+  } else {
+    passwordType.value = 'password'
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -50,14 +99,14 @@ $cursor: #fff;
     margin: 0 auto;
     overflow: hidden;
 
-    ::v-deep .el-form-item {
+    :deep .el-form-item {
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(0, 0, 0, 0.1);
       border-radius: 5px;
       color: #454545;
     }
 
-    ::v-deep .el-input {
+    :deep .el-input {
       display: inline-block;
       height: 47px;
       width: 85%;
@@ -111,7 +160,7 @@ $cursor: #fff;
       font-weight: bold;
     }
 
-    ::v-deep .lang-select {
+    :deep .lang-select {
       position: absolute;
       top: 4px;
       right: 0;
