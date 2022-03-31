@@ -1,16 +1,22 @@
 <template>
   <div class="app-container">
     <el-container>
-      <el-aside width="200px" class="sidebar-container">Aside</el-aside>
+      <el-aside width="200px" class="sidebar-container">
+        <Menu></Menu>
+      </el-aside>
       <el-container class="container">
         <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import Menu from './Menu'
 </script>
 
 <style lang="scss" scoped>

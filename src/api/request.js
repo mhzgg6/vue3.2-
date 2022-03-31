@@ -9,6 +9,7 @@ console.log(process.env.VUE_APP_BASE_API)
 
 service.interceptors.request.use(
   (config) => {
+    config.headers.Authorization = localStorage.getItem('token')
     return config
   },
   (error) => {
