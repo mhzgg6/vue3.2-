@@ -1,5 +1,7 @@
 import axios from "axios"
 import { ElMessage } from 'element-plus'
+import { diffTokenTime } from '@/utils/auth'
+import store from '@/store'
 
 const service = axios.create({
   baseURL: 'https://lianghj.top:8888/api/private/v1/',
@@ -9,7 +11,14 @@ console.log(process.env.VUE_APP_BASE_API)
 
 service.interceptors.request.use(
   (config) => {
-    config.headers.Authorization = localStorage.getItem('token')
+    let token = localStorage.getItem('token')
+    if (token) {
+      if (diffTokenTime()) {
+        store.dispatch('app/logout')
+        return Promise.reject(new Error('token 失效了'))
+      }
+    }
+    config.headers.Authorization = token
     return config
   },
   (error) => {
