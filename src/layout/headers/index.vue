@@ -1,13 +1,24 @@
 <template>
   <div class="navbar">  
     <Hamburger></Hamburger>
+    <BreadCrumb></BreadCrumb>
+    <div class="navbar-right">
+      <Guide class="navbar-item" />
+      <ScreenFull class="navbar-item" />
+      <Lang class="navbar-item" />
+      <Avater class="navbar-item" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import {} from 'vue'
 import Hamburger from './components/hamburger.vue'
-
+import BreadCrumb from  './components/breadcrumb.vue'
+import Avater from './components/avater.vue'
+import Lang from './components/lang.vue'
+import ScreenFull from './components/screenFull.vue'
+import Guide from './components/driver'
 </script>
 
 <style lang='scss' scoped>
