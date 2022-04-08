@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.0",
     "driver.js": "^0.9.8",
     "element-plus": "^2.1.4",
     "screenfull": "^5.1.0",
